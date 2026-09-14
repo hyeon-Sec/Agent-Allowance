@@ -1,0 +1,42 @@
+{
+  "name": "agent",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "setup": "tsx scripts/setup.ts",
+    "typecheck": "tsc",
+    "build:web": "esbuild ../web/app.js --bundle --format=esm --target=es2022 --outfile=../web/assets/app.js --minify --loader:.woff2=file --loader:.woff=file",
+    "prestart": "npm run build:web",
+    "predev": "npm run build:web",
+    "test": "tsx --test tests/*.test.ts",
+    "migrate:owner-env": "tsx scripts/migrate-owner-env.ts",
+    "verify:browser-server": "tsx scripts/verify-browser-server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.125.0",
+    "@fontsource/noto-sans-kr": "^5.3.0",
+    "@google/genai": "^2.22.0",
+    "@mysten/dapp-kit-core": "^1.6.27",
+    "@mysten/sui": "^2.31.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "openai": "^7.15.0",
+    "zod": "^4.6.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.2",
+    "agent-browser": "^0.37.1",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.13",
+    "typescript": "^6.0.3"
+  }
+}

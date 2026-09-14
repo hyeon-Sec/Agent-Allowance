@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Allowance</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/app.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Agent Allowance</h1>
+      <p class="tagline">AI에게 정해진 예산만 맡기세요. 지출 권한은 <b>Sui</b>가 제한하고, 판단 기록은 <b>Walrus</b>에 보관합니다.</p>
+    </div>
+    <a id="allowance-link" class="chip mono" target="_blank" rel="noreferrer">Allowance 로딩 중…</a>
+  </header>
+
+  <main class="layout">
+    <section class="panel chat">
+      <h2>에이전트에게 부탁하기</h2>
+      <div class="provider-picker">
+        <label for="ai-provider">대화할 AI</label>
+        <select id="ai-provider" aria-describedby="model-info" disabled><option>설정 불러오는 중…</option></select>
+      </div>
+      <p id="model-info" class="muted small"></p>
+      <p id="chat-notice" class="notice" role="status" hidden></p>
+      <div id="messages" class="messages">
+        <div class="msg assistant">안녕하세요! 캠퍼스에서 필요한 걸 말씀해 주세요. 결제는 Sui Allowance 한도 안에서만 할 수 있어요.</div>
+      </div>
+      <div class="quick">
+        <button data-prompt="점심 정식 하나 사줘">🍱 점심 사줘</button>
+        <button data-prompt="알고리즘 전공 교재 사줘">📘 교재 사줘</button>
+        <button data-prompt="게이밍 노트북 하나 사줘">💻 노트북 사줘</button>
+        <button data-prompt="쿠폰 이벤트 있으면 참여해줘">🎟️ 쿠폰 이벤트</button>
+        <button data-prompt="지난번 결제 기록을 확인하고 무엇을 샀는지 알려줘. 새 결제는 하지 마.">🧠 지난 결제 기억</button>
+      </div>
+      <form id="chat-form" class="composer">
+        <input id="chat-input" aria-label="구매 요청" placeholder="예: 아메리카노랑 삼각김밥 사줘" autocomplete="off" maxlength="4000" disabled />
+        <button type="submit" id="send" disabled>보내기</button>
+      </form>
+    </section>
+
+    <aside class="side">
+      <section class="panel">
+        <p id="status-error" class="notice" role="status" hidden></p>
+        <div class="row between">
+          <h2>온체인 정책</h2>
+          <span id="paused-badge" class="badge">확인 중</span>
+        </div>
+        <div class="stats">
+          <div><span class="label">잔액</span><span id="balance" class="value">–</span></div>
+          <div><span class="label">1회 한도</span><span id="per-tx" class="value">–</span></div>
+          <div><span class="label">24시간 주기 한도</span><span id="daily" class="value">–</span></div>
+        </div>
+        <div class="meter"><div id="meter-fill"></div></div>
+        <p id="meter-text" class="muted small">이번 주기 사용액 –</p>
+        <p id="window-reset" class="muted small">직전 24시간 누적이 아니라 주기별로 초기화됩니다.</p>
+        <h3>상점</h3>
+        <ul id="merchants" class="merchants"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>소유자 제어</h2>
+        <mysten-dapp-kit-connect-button>소유자 지갑 연결</mysten-dapp-kit-connect-button>
+        <p id="wallet-status" class="muted small" role="status">이 Allowance의 소유자 지갑을 연결하세요. 네트워크: Sui testnet</p>
+        <fieldset id="owner-controls" disabled>
+        <div class="row gap">
+          <button id="pause-btn" class="secondary">⏸ 에이전트 결제 정지</button>
+        </div>
+        <form id="limits-form" class="row gap wrap">
+          <label>1회 <input id="limit-per-tx" type="number" step="0.000000001" min="0.000000001" required /> SUI</label>
+          <label>24시간 주기 <input id="limit-daily" type="number" step="0.000000001" min="0.000000001" required /> SUI</label>
+          <button type="submit" class="secondary">한도 변경</button>
+        </form>
+        </fieldset>
+      </section>
+
+      <section class="panel danger">
+        <h2>공격 시뮬레이션</h2>
+        <p class="muted small">에이전트 키가 탈취됐다고 가정하고, LLM을 거치지 않고 컨트랙트를 직접 호출합니다.</p>
+        <div class="row gap wrap">
+          <button data-attack="drain" class="warn">🔓 1회 한도 초과 시도</button>
+          <button data-attack="exfiltrate" class="warn">🔓 공격자 주소로 송금</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>결제 기록</h2>
+        <p class="muted small">판단 기록은 공개되며 보관 기간이 있습니다. 결과 미확인은 체인에서 확인한 뒤 다시 요청하세요.</p>
+        <ul id="activity" class="activity"></ul>
+      </section>
+    </aside>
+  </main>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>

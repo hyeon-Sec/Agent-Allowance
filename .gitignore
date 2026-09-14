@@ -1,0 +1,7 @@
+node_modules/
+.env
+agent/data/
+move/**/build/
+web/assets/
+.env.*
+!.env.example
