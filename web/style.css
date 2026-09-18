@@ -151,3 +151,22 @@ mysten-dapp-kit-connect-button { --font-sans: "Noto Sans KR", system-ui, sans-se
 .provider-picker select { min-width: 0; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--text); font: inherit; }
 #model-info { margin: 6px 0 12px; overflow-wrap: anywhere; }
 .msg .provider-label { display: block; font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+
+/* Presentation mode (?present=1): larger type, payment results stand out on a projector. */
+body.present { font-size: 18px; }
+body.present h1 { font-size: 26px; }
+body.present h2 { font-size: 19px; }
+body.present .value { font-size: 26px; }
+body.present .label, body.present .small, body.present .tools, body.present .badge, body.present .chip { font-size: 14px; }
+body.present .badge { font-size: 15px; padding: 5px 14px; }
+body.present .msg { font-size: 17px; max-width: 92%; }
+body.present .merchants li { font-size: 15px; }
+body.present .activity li { font-size: 16px; }
+body.present .activity .links, body.present .pay-card .links { font-size: 15px; }
+body.present .pay-card { font-size: 17px; max-width: 96%; padding: 16px 20px; border-width: 2px; animation: pay-pop 0.7s ease-out; }
+body.present .pay-card .title { font-size: 21px; margin-bottom: 4px; }
+body.present .quick button, body.present .composer input, body.present #send, body.present button.warn { font-size: 16px; }
+@keyframes pay-pop {
+  0% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(47, 107, 255, 0.55); }
+  100% { transform: scale(1); box-shadow: 0 0 0 16px rgba(47, 107, 255, 0); }
+}

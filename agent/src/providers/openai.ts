@@ -4,7 +4,7 @@ import { toolParameters } from "../agent-tools.js";
 import { ChatExecutionError } from "../chat-errors.js";
 import type { ModelSession, SessionOptions } from "./types.js";
 
-export function createOpenAISession(options: SessionOptions, client = new OpenAI({ maxRetries: 0, timeout: 60_000 })): ModelSession {
+export function createOpenAISession(options: SessionOptions, client = new OpenAI({ maxRetries: 0, timeout: 120_000 })): ModelSession {
   const input: ResponseInput = options.messages.map((m) => ({ ...m }));
   return { async next(results) {
     input.push(...results.map((r) => ({ type: "function_call_output" as const, call_id: r.id, output: r.output })));

@@ -15,7 +15,7 @@ export function createGeminiSession(options: SessionOptions, client = new Google
       store: false, generation_config: { max_output_tokens: 16000 },
       tools: options.tools.map((tool) => ({ type: "function", name: tool.name, description: tool.description,
         parameters: toolParameters(tool) })),
-    }, { timeout: 60_000, maxRetries: 0 });
+    }, { timeout: 120_000, maxRetries: 0 });
     if (!["completed", "requires_action"].includes(response.status)) throw new ChatExecutionError("incomplete");
     if (response.steps.some((s) => s.type === "model_output" && s.error)) throw new ChatExecutionError("incomplete");
     // Keep every step, including thought signatures, verbatim for stateless continuation.

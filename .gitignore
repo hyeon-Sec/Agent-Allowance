@@ -5,3 +5,5 @@ move/**/build/
 web/assets/
 .env.*
 !.env.example
+*.mp4
+*.zip

@@ -4,11 +4,31 @@ import { SYSTEM } from "./agent-prompt.js";
 import { makeTools, defaultToolDependencies } from "./agent-tools.js";
 import { ChatExecutionError, describeChatError } from "./chat-errors.js";
 import { createModelSession } from "./providers/index.js";
-import type { ToolResult } from "./providers/types.js";
+import type { ModelSession, ModelTurn, ToolResult } from "./providers/types.js";
+import { setTimeout as delay } from "node:timers/promises";
 import type { ChatTurn, ChatResult, RunContext } from "./chat-types.js";
 export type { ChatTurn, ChatResult } from "./chat-types.js";
 
 export const chatDependencies = { getAIConfig, createModelSession, tools: defaultToolDependencies };
+
+/** Providers phrase the wait differently ("retry in 12.3s", retryDelay "12s"); default to 20s, cap at 60s. */
+function retryDelayMs(error: unknown): number {
+  const message = String((error as { message?: string } | null)?.message ?? "");
+  const seconds = Number(/retry[^0-9]{0,20}([\d.]+)\s*s/i.exec(message)?.[1]);
+  return Math.min(Math.max(Number.isFinite(seconds) && seconds > 0 ? seconds : 20, 5), 60) * 1000;
+}
+
+/** A rate limit before any payment is safe to wait out once. After a payment, return receipts instead. */
+async function nextTurn(session: ModelSession, results: ToolResult[], ctx: RunContext): Promise<ModelTurn> {
+  try {
+    return await session.next(results);
+  } catch (error) {
+    const status = (error as { status?: number } | null)?.status;
+    if (status !== 429 || ctx.paymentAttempted) throw error;
+    await delay(retryDelayMs(error));
+    return session.next(results);
+  }
+}
 export async function runChat(history: ChatTurn[], message: string, selectedProvider?: AIProvider,
   deps = chatDependencies): Promise<ChatResult> {
   const settings = deps.getAIConfig();
@@ -26,7 +46,7 @@ export async function runChat(history: ChatTurn[], message: string, selectedProv
     const completed = new Map<string, { fingerprint: string; result: ToolResult }>();
     let results: ToolResult[] = [];
     for (let round = 0; round < 10; round++) {
-      const turn = await session.next(results);
+      const turn = await nextTurn(session, results, ctx);
       ctx.lastReasoning = turn.reasoning.trim() || turn.text.trim();
       if (!turn.toolCalls.length) {
         if (!turn.text.trim()) throw new ChatExecutionError("invalid_response");

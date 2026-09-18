@@ -228,6 +228,9 @@ $("#ai-provider").addEventListener("change", () => {
   selectProvider();
 });
 
+// ?present=1 enlarges text and highlights payment results for projectors and screen recordings.
+if (new URLSearchParams(location.search).has("present")) document.body.classList.add("present");
+
 updateControls();
 api("/api/config").then((config) => {
   configured = true;

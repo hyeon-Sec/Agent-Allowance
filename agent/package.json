@@ -12,7 +12,8 @@
     "predev": "npm run build:web",
     "test": "tsx --test tests/*.test.ts",
     "migrate:owner-env": "tsx scripts/migrate-owner-env.ts",
-    "verify:browser-server": "tsx scripts/verify-browser-server.ts"
+    "verify:browser-server": "tsx scripts/verify-browser-server.ts",
+    "demo:reset": "bash scripts/demo-reset.sh"
   },
   "keywords": [],
   "author": "",

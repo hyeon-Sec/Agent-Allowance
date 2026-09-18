@@ -48,7 +48,7 @@ testnet에서 실제로 실행한 트랜잭션:
 - 공격자 주소로 송금 시도, 거절: [DWGBkt…7rrS](https://suiscan.xyz/testnet/tx/DWGBktG1cdtXEVbRYnZsUuPAZyCAzUg4o1eqVNrJ7rrS)
 - 5 SUI 인출 시도, 거절: [5dygz3…TgW](https://suiscan.xyz/testnet/tx/5dygz3Jh3DwcTzb6PiaXtMfhZkHHrj77VFYDNNQqpTgW)
 
-테스트는 Move 9개, TypeScript 50개가 통과합니다. AI와의 실제 대화 결제와 브라우저 지갑 서명은 아직 테스트 서버로만 확인했습니다.
+테스트는 Move 9개, TypeScript 50개가 통과합니다. Gemini로 실제 대화 결제(승인, 한도·허용 상점 거절, 인젝션 거부, 과거 기록 조회)를 확인했습니다. 브라우저 지갑 서명은 실제 지갑으로는 아직 확인하지 못했습니다.
 
 컨트랙트: [Package](https://suiscan.xyz/testnet/object/0xf9e3ebefaea62292e50a2225251dbb502f35ac29bbf6c628f68efe794cb51557) · [Allowance](https://suiscan.xyz/testnet/object/0x395f31a6de3b5a2816c80e55405e1e313fe90c83320079914bfb198d9c94e858)
 

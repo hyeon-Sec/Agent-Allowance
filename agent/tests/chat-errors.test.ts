@@ -25,6 +25,9 @@ test("unrecognized provider errors do not expose their response bodies", () => {
 
 test("OpenAI billing quota differs from rate limiting and Gemini errors name Gemini", () => {
   assert.match(describeChatError({ status: 429, code: "insufficient_quota" }, false, "openai"), /OpenAI API 크레딧 또는 사용 예산/);
+  // Shape of the real OpenAI SDK error for an account with no credits.
+  assert.match(describeChatError({ status: 429, type: "insufficient_quota", code: "credit_balance_exhausted" }, false, "openai"),
+    /OpenAI API 크레딧 또는 사용 예산/);
   assert.match(describeChatError({ status: 429, code: "rate_limit_exceeded" }, false, "openai"), /OpenAI API 요청 한도/);
   assert.match(describeChatError({ status: 429 }, false, "gemini"), /Gemini API 할당량/);
   assert.match(describeChatError({ status: 400, message: "API key not valid. secret" }, false, "gemini"), /Gemini API 키 인증/);

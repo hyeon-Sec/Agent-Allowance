@@ -4,7 +4,7 @@ import { toolParameters } from "../agent-tools.js";
 import { ChatExecutionError } from "../chat-errors.js";
 import type { ModelSession, SessionOptions } from "./types.js";
 
-export function createAnthropicSession(options: SessionOptions, client = new Anthropic({ maxRetries: 0, timeout: 60_000 })): ModelSession {
+export function createAnthropicSession(options: SessionOptions, client = new Anthropic({ maxRetries: 0, timeout: 120_000 })): ModelSession {
   const messages: BetaMessageParam[] = options.messages.map((m) => ({ ...m }));
   return { async next(results) {
     if (results.length) messages.push({ role: "user", content: results.map((r) => ({
