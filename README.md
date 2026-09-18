@@ -104,9 +104,3 @@ agent/tests/            테스트
 web/                    대시보드
 docs/                   검증 기록, 발표 자료
 ```
-
-## 다음에 할 것
-
-- Seal로 기록 암호화
-- Walrus 인증 객체로 컨트랙트에서 기록 확인
-- 에이전트 가스 대납(sponsored transaction)
