@@ -84,16 +84,6 @@ cd move/agent_allowance && sui move test    # Move 테스트 9개
 - 공격자 주소로 송금 시도, 거절: [DWGBkt…7rrS](https://suiscan.xyz/testnet/tx/DWGBktG1cdtXEVbRYnZsUuPAZyCAzUg4o1eqVNrJ7rrS)
 - 5 SUI 인출 시도, 1회 한도 초과로 거절: [5dygz3…TgW](https://suiscan.xyz/testnet/tx/5dygz3Jh3DwcTzb6PiaXtMfhZkHHrj77VFYDNNQqpTgW)
 
-## 한계
-
-- 보호하는 건 Allowance 안의 돈입니다. 에이전트 주소에 있는 가스 잔액은 보호 대상이 아닙니다.
-- 에이전트 키가 유출되면 허용 상점과 한도 안의 결제까지는 막을 수 없습니다. 이때는 정지한 뒤 키를 바꿔야 합니다.
-- Walrus 기록을 저장하고 확인하는 건 앱입니다. 컨트랙트는 blob ID의 내용까지 확인하지 않습니다.
-- 한도는 24시간마다 초기화됩니다. 직전 24시간을 합산하는 방식이 아닙니다.
-- Walrus 기록은 공개되며 5 epochs 동안만 보관됩니다.
-- 127.0.0.1에서만 도는 단일 사용자 데모이고, 캠퍼스 상점은 가상입니다.
-- 실제 AI 대화 결제는 Gemini(`gemini-3.5-flash-lite`)로 승인·거절·인젝션 거부·기록 조회 시나리오를 확인했습니다. Claude·OpenAI는 테스트 서버로만 검증했고, 브라우저 지갑 서명은 실제 지갑으로는 아직 확인하지 못했습니다.
-
 ## 폴더
 
 ```
